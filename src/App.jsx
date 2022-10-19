@@ -4,10 +4,12 @@ import loadingIcon from './assets/spinner.svg';
 import MemeItem from './components/MemeItem';
 
 const API_URL = 'https://api.imgflip.com/get_memes';
+const selectOptions = [12, 24, 32, 48, 56];
 
 function App() {
 	const [memes, setMemes] = React.useState([]);
 	const [loading, setLoading] = React.useState(true);
+	const [limit, setLimit] = React.useState(12);
 
 	React.useEffect(() => {
 		if (!loading) return;
@@ -19,10 +21,9 @@ function App() {
 				if (apiRes.status === 200) {
 					const dataJSON = await apiRes.json();
 					if (dataJSON?.data?.memes && isSubscribe) {
-						setTimeout(() => {
-							setMemes(dataJSON.data.memes || []);
-							setLoading(false);
-						}, 500);
+						const memes = dataJSON.data?.memes || [];
+						setMemes(memes.sort(() => Math.random() - 0.5).slice(0, limit));
+						setLoading(false);
 					}
 				}
 			} catch (error) {
@@ -32,14 +33,32 @@ function App() {
 		})();
 
 		return () => (isSubscribe = false);
-	}, [loading]);
+	}, [loading, limit]);
 
 	return (
 		<div className='App'>
 			<h1 className='title'>18120634 BTCN03 - Meme list</h1>
 
-			<div className='load-btn-wrapper' onClick={() => setLoading(true)}>
-				<button className={`load-btn ${loading ? 'loading' : ''}`}>
+			<div className='load-btn-wrapper'>
+				<label htmlFor='limit'>Chọn số lượng meme random:&nbsp;</label>
+				<select
+					className='limit-select'
+					id='limit'
+					onChange={e => {
+						setLimit(e.target.value);
+						setLoading(true);
+					}}
+				>
+					{selectOptions.map(option => (
+						<option value={option} key={option}>
+							{option}
+						</option>
+					))}
+				</select>
+				<button
+					className={`load-btn ${loading ? 'loading' : ''}`}
+					onClick={() => setLoading(true)}
+				>
 					{loading ? 'Loading ...' : 'Load Meme'}
 				</button>
 			</div>

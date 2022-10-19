@@ -25,13 +25,21 @@ body {
 
 .load-btn-wrapper {
 	margin: 16px 0px;
-	text-align: end;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.limit-select {
+	outline: none;
+	padding: 10px 16px;
+	border-radius: 8px;
+	font-size: 16px;
 }
 
 .load-btn {
-	margin-left: auto;
-	text-align: end;
 	display: inline-block;
+	margin-left: auto;
 	outline: none;
 	padding: 10px 16px;
 	font-size: 16px;
@@ -68,11 +76,16 @@ body {
 .meme-grid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 12px;
+	gap: 24px;
 }
 
 .meme {
 	position: relative;
+	height: 300px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+		rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+	border-radius: 12px;
+	overflow: hidden;
 }
 
 .meme-img {
